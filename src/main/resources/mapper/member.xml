@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.idev.boot.dao.MemberMapper"> 
+<!-- namespace : mybatis-spring에서는 매퍼 인터페이스로 지정합니다. -->
+
+	<select id="getCount" resultType="int"> <!-- id : 식별 역할의 변수 -->
+	SELECT COUNT(*) FROM MEMBER
+	</select> 
+	
+	<select id="selectAll" resultType="Member">		<!-- alias 활용했기 때문에 이거만 써도 된다. -->
+	SELECT * FROM MEMBER ORDER BY MNO	
+	</select>
+	
+	<!-- parameterType : 실행에 필요한 데이터의 타입 , resultType : 실행 결과 데이터의 타입 -->
+	<select id="selectByMno" parameterType="int" resultType="Member">
+	SELECT * FROM MEMBER WHERE MNO = #{mno}
+	</select> 
+
+	<select id="login" resultType="Member" parameterType="java.util.HashMap">
+		SELECT * FROM MEMBER WHERE EMAIL = #{email} AND PASSWORD = #{password}
+	</select>
+	
+	<update id="changePassw" parameterType="java.util.HashMap">
+		UPDATE MEMBER SET PASSWORD = #{newpass} WHERE EMAIL = #{email} AND PASSWORD = #{oldpass}
+	</update>
+	
+	<select id="checkEmail" resultType="int" parameterType="String">
+		SELECT COUNT(*) FROM MEMBER WHERE EMAIL = #{email}	
+	</select>
+	<!-- email은 기본키는 아니지만 userid로 사용하는 unique(제약조건)-->
+	
+															<!--
+																keyColumn : 가져올 값의 컬럼
+																keyProperty : 가져올 값
+																useGeneratedKeys : SQL 명령문을 실행하고 자동으로 값을 생성
+															-->
+													<!-- ***** 얘네가 있으면 회원가입하고 바로 로그인이 된다. ***** -->
+	<insert id="addMember" parameterType="Member" keyColumn="mno" keyProperty="mno" useGeneratedKeys="true">
+						<!-- parameterType : 쿼리 실행에 필요한 데이터 타입 -->
+			INSERT INTO MEMBER (MNO, NAME, PASSWORD, EMAIL, GENDER, HOBBY, ADDR, AGE) 
+			VALUES (MEMBER_IDX_SEQ.NEXTVAL, #{name}, #{password}, #{email}, #{gender}, #{hobby}, #{addr}, #{age})
+	</insert>
+	
+	<update id="updateMember" parameterType="Member">
+		UPDATE MEMBER SET EMAIL = #{email}, GENDER = #{gender}, ADDR = #{addr}, HOBBY = #{hobby}, AGE = #{age} WHERE MNO = #{mno}
+	</update>
+	
+	<delete id="delete" parameterType="int">
+		DELETE FROM MEMBER WHERE MNO = #{mno}
+	</delete>
+	
+<!-- SNS!!!!! -->	
+	<!-- 회원가입 -->
+	<insert id="register" parameterType="SnsMember">
+		INSERT INTO SNS_MEMBER (ID, PW, AGE, NAME, NICKNAME, BIRTH, ADDR, GENDER, PROFILE_FILE, CASH)
+		VALUES (#{id}, #{pw}, #{age}, #{name}, #{nickname}, #{birth}, #{addr}, #{gender}, #{profile_file}, #{cash})
+	</insert>
+
+	<!-- id(이메일) 중복 검사 -->
+	<select id="idCheck" resultType="int" parameterType="String">
+		SELECT COUNT(*) FROM SNS_MEMBER WHERE ID = #{id}
+	</select>
+	
+	<!-- 닉네임 중복 검사 -->
+	<select id="nickCheck" resultType="int" parameterType="String">
+		SELECT COUNT(*) FROM SNS_MEMBER WHERE NICKNAME = #{nickname}
+	</select>
+	
+</mapper>
+
+
+
+
+
+
+
+

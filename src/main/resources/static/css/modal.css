@@ -1,0 +1,53 @@
+/* 글 비밀번호 입력 모달 */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box   , css 반영이 안되면 브라우저에서 ctrl+f5 */ 
+.modal-content {
+    background-color: #fefefe;
+    margin: auto; /* 15% from the top and centered */
+    padding: 10px;
+    padding-bottom : 20px;
+    margin-top: 200px;
+   /*  border: 3px solid#4080bf; */
+    width: 50%; /* Could be more or less, depending on screen size */
+    font-size: 1.1em;
+    border-radius: 2px;
+}
+.modal-content input[type=password] {
+	width: 200px;
+}
+
+.modal-content input[type=submit], input[type=reset],input[type=button] {
+	padding: 7px;
+	margin: 7px;
+	background: maroon;
+	font-size: 0.8em;
+	color: white;
+	border: none;
+	cursor: pointer;
+}
+
+/* The Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover, .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
